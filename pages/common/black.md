@@ -1,13 +1,13 @@
 # black
 
-> A Python auto code formatter.
+> Format Python code automatically.
 > More information: <https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html>.
 
 - Auto-format a file or entire directory:
 
 `black {{path/to/file_or_directory}}`
 
-- Format the code passed in as a string:
+- Format the [c]ode passed in as a string:
 
 `black -c "{{code}}"`
 

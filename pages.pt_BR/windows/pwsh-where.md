@@ -1,7 +1,6 @@
 # pwsh where
 
-> Este comando é um pseudônimo de `Where-Object`.
-> Mais informações: <https://learn.microsoft.com/powershell/module/microsoft.powershell.core/where-object>.
+> Este comando é um apelido de `Where-Object`.
 
 - Exibe documentação sobre o comando original:
 

@@ -1,6 +1,6 @@
 # find
 
-> Find files or directories under the given directory tree, recursively.
+> Find files or directories under a directory tree, recursively.
 > More information: <https://manned.org/find>.
 
 - Find files by extension:
@@ -31,6 +31,6 @@
 
 `find {{root_path}} -daystart -mtime {{-1}} -exec {{tar -cvf archive.tar}} {} \+`
 
-- Find empty (0 byte) files and delete them:
+- Find empty files (0 byte) or directories and delete them verbosely:
 
-`find {{root_path}} -type {{f}} -empty -delete`
+`find {{root_path}} -type {{f|d}} -empty -delete -print`
