@@ -1,7 +1,6 @@
 # cc
 
-> Este comando é um pseudônimo de `gcc`.
-> Mais informações: <https://gcc.gnu.org>.
+> Este comando é um apelido de `gcc`.
 
 - Exibe documentação sobre o comando original:
 

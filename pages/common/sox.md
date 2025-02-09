@@ -2,7 +2,7 @@
 
 > Sound eXchange: play, record and convert audio files.
 > Audio formats are identified by the extension.
-> More information: <http://sox.sourceforge.net>.
+> More information: <https://sox.sourceforge.net>.
 
 - Merge two audio files into one:
 
@@ -10,7 +10,7 @@
 
 - Trim an audio file to the specified times:
 
-`sox {{path/to/input_audio}} {{path/to/output_audio}} trim {{start}} {{end}}`
+`sox {{path/to/input_audio}} {{path/to/output_audio}} trim {{start}} {{duration}}`
 
 - Normalize an audio file (adjust volume to the maximum peak level, without clipping):
 

@@ -1,13 +1,13 @@
 # docker start
 
 > Start stopped containers.
-> More information: <https://docs.docker.com/engine/reference/commandline/start/>.
+> More information: <https://docs.docker.com/reference/cli/docker/container/start/>.
 
 - Display help:
 
 `docker start`
 
-- Start a docker container:
+- Start a Docker container:
 
 `docker start {{container}}`
 
