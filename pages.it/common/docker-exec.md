@@ -1,7 +1,7 @@
 # docker exec
 
 > Esegui un comando su un Docker container in esecuzione.
-> Maggiori informazioni: <https://docs.docker.com/engine/reference/commandline/exec/>.
+> Maggiori informazioni: <https://docs.docker.com/reference/cli/docker/container/exec/>.
 
 - Avvia una shell interattiva all'interno di un container in esecuzione:
 
@@ -19,7 +19,7 @@
 
 `docker exec --interactive --detach {{nome_container}} {{comando}}`
 
-- Imposta una variabile d'ambiente in una sessione bash in esecuzione:
+- Imposta una variabile d'ambiente in una sessione Bash in esecuzione:
 
 `docker exec --interactive --tty --env {{nome_variabile}}={{valore}} {{nome_container}} {{/bin/bash}}`
 

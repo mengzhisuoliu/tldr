@@ -1,7 +1,6 @@
 # megadl
 
-> Este comando é um pseudônimo de `megatools-dl`.
-> Mais informações: <https://megatools.megous.com/man/megatools-dl.html>.
+> Este comando é um apelido de `megatools-dl`.
 
 - Exibe documentação sobre o comando original:
 
