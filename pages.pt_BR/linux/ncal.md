@@ -1,7 +1,6 @@
 # ncal
 
-> Este comando é um pseudônimo de `cal`.
-> Mais informações: <https://manned.org/ncal>.
+> Este comando é um apelido de `cal`.
 
 - Exibe documentação sobre o comando original:
 

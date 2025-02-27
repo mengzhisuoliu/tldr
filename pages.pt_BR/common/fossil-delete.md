@@ -1,7 +1,6 @@
-# fossil-delete
+# fossil delete
 
-> Este comando é um pseudônimo de `fossil rm`.
-> Mais informações: <https://fossil-scm.org/home/help/delete>.
+> Este comando é um apelido de `fossil rm`.
 
 - Exibe documentação sobre o comando original:
 

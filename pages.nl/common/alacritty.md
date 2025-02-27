@@ -7,18 +7,26 @@
 
 `alacritty`
 
+- Start de Alacritty daemon (zonder een venster te maken):
+
+`alacritty --daemon`
+
+- Maak een nieuw venster met behulp van het reeds lopende Alacritty proces:
+
+`alacritty msg create-window`
+
 - Uitvoeren in een specifieke map:
 
 `alacritty --working-directory {{pad/naar/map}}`
 
-- Voer een opdracht uit in een nieuw Alacritty-venster:
+- Vo[e]r een commando uit in een nieuw Alacritty-venster:
 
-`alacritty -e {{bevel}}`
+`alacritty -e {{commando}}`
 
-- Geef een alternatief configuratiebestand op (standaard ingesteld op `$XDG_CONFIG_HOME/alacritty/alacritty.yml`):
+- Geef een alternatief configuratiebestand op (standaard ingesteld op `$XDG_CONFIG_HOME/alacritty/alacritty.toml`):
 
-`alacritty --config-file {{pad/naar/config.yml}}`
+`alacritty --config-file {{pad/naar/config.toml}}`
 
-- Uitvoeren met live config reload ingeschakeld (kan ook standaard worden ingeschakeld in `alacritty.yml`):
+- Uitvoeren met live config reload ingeschakeld (kan ook standaard worden ingeschakeld in `alacritty.toml`):
 
-`alacritty --live-config-reload --config-file {{pad/naar/config.yml}}`
+`alacritty --live-config-reload --config-file {{pad/naar/config.toml}}`

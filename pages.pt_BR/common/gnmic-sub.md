@@ -1,7 +1,6 @@
-# gnmic-sub
+# gnmic sub
 
-> Este comando é um pseudônimo de `gnmic subscribe`.
-> Mais informações: <https://gnmic.kmrd.dev/cmd/subscribe>.
+> Este comando é um apelido de `gnmic subscribe`.
 
 - Exibe documentação sobre o comando original:
 

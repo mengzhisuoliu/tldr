@@ -1,6 +1,7 @@
+<!-- markdownlint-disable MD007 MD013 MD024-->
 # tldr-pages client specification
 
-**Current Specification Version:** 2.1
+**Current Specification Version:** Unreleased
 
 This document contains the official specification for tldr-pages clients. It is _not_ a specification of the format of the pages themselves - only a specification of how a user should be able to interface with an official client. For a list of previous versions of the specification, see the [changelog section](#changelog) below.
 
@@ -29,19 +30,25 @@ This section describes the standardised command-line interface (CLI) for clients
 
 ### Arguments
 
-The following command-line options MUST be supported (unless otherwise specified) if a CLI is implemented:
+The following table documents what command-line options MUST be supported and which are optional.
 
-Option             | Required?   | Meaning
--------------------|-------------|----------
-`-v`, `--version`  | Yes         | Shows the current version of the client, and the version of this specification that it implements.
-`-p`, `--platform` | Yes         | Specifies the platform to be used to perform the action (either listing or searching) as an argument. If this option is specified, the selected platform MUST be checked first instead of the current platform as described below.
-`-u`, `--update`   | Conditional | Updates the offline cache of pages. MUST be implemented if caching is supported.
-`-l`, `--list`     | No          | Lists all the pages in the current platform to the standard output.
-`-L`, `--language` | No          | Specifies the preferred language for the page returned. Overrides other language detection mechanisms. See the [language section](#language) for more information.
+When adding support for an option, clients MUST implement all variants of that option listed in the table.
+For example, clients should implement _both_ `-v` and `--version`.
+When a client implements updating the offline cache, they should support _both_ `-u` and `--update`.
 
-Clients MUST implement both the short and long versions of an option.
+Option                 | Required?   | Meaning
+-----------------------|-------------|----------
+`-v`, `--version`      | Yes         | Shows the current version of the client, and the version of this specification that it implements.
+`-p`, `--platform`     | Yes         | Specifies the platform to be used to perform the action (either listing or searching) as an argument. If this option is specified, the selected platform MUST be checked first instead of the current platform as described below.
+`-u`, `--update`       | Conditional | Updates the offline cache of pages. MUST be implemented if caching is supported.
+`-l`, `--list`         | No          | Lists all the pages in the current platform to the standard output.
+`-L`, `--language`     | No          | Specifies the preferred language for the page returned. Overrides other language detection mechanisms. See the [language section](#language) for more information.
+`-S`, `--short-options`| No          | If set, will filter examples to show their shortform option when available
+`-E`, `--long-options` | No          | If set, will filter examples to show their longform option when available
 
-Additional decoration MAY be printed if the standard output is a [TTY](http://www.linusakesson.net/programming/tty/index.php). If not, then the output MUST not contain any additional decorations. For example, a page list MUST be formatted with one page name per line (to enable easy manipulation using standard CLI tools such as `grep` etc.).
+By default clients SHOULD display only the longform option when neither `--short-options` or `--long-options` is set by the user. If both are provided, both options should be displayed (see the [Page Structure / Examples](#examples) section for the output format).
+
+Additional decoration MAY be printed if the standard output is a [TTY](https://linusakesson.net/programming/tty/index.php). If not, then the output MUST not contain any additional decorations. For example, a page list MUST be formatted with one page name per line (to enable easy manipulation using standard CLI tools such as `grep` etc.).
 
 Clients MAY support additional custom arguments and syntax not documented here.
 
@@ -112,13 +119,25 @@ The structure inside these translation folders is identical to that of the main 
 
 ## Page structure
 
-Although this specification is about the interface that clients must provide, it is also worth noting that pages are written in standard [CommonMark](https://commonmark.org/), with the exception of the non-standard `{{` and `}}` placeholder syntax, which surrounds values in an example that users may edit. Clients MAY highlight the placeholders and MUST remove the surrounding curly braces. Clients MUST NOT treat them as the placeholder syntax if they are escaped using `\` (i.e. `\{\{` and `\}\}`) and MUST instead display literal braces, without backslashes. Placeholder escaping applies only when both braces are escaped (e.g. in `\{` or `\{{`, backslashes MUST be displayed). Clients MUST NOT break if the page format is changed within the _CommonMark_ specification.
+Although this specification is about the interface that clients must provide, it is also worth noting that pages are written in standard [CommonMark](https://commonmark.org/), with the exceptions:
+- Non-standard `{{`, `}}`, `{{[` and `]}}` placeholder syntax.
+  - `{{` and `}}` surrounds values in an example that indicates editable values.
+  - `{{[` and `]}}` indicate shortform and longform variants of options which are separated by a single `|`. Shortform on the left, longform on the right.
+
+Things to take into account:
+- Clients MAY highlight the placeholders and MUST remove the surrounding curly braces.
+- Clients MUST remove the angle brackets from option placeholders when only short- or longform is shown. 
+- Clients MUST NOT treat them as the placeholder syntax if they are escaped using `\` (i.e. `\{\{` and `\}\}`) and MUST instead display literal braces, without backslashes. Placeholder escaping applies only when both braces are escaped (e.g. in `\{` or `\{{`, backslashes MUST be displayed).
+- In cases when a command uses `{}` in its arguments (e.g. `stash@{0}`) **_the outer braces_** mark the placeholder - the braces inside MUST be displayed.
+- Clients MUST NOT break if the page format is changed within the _CommonMark_ specification.
 
 ### Examples
 
 - `ping {{example.com}}` MUST be rendered as "ping example.com"
 - `docker inspect --format '\{\{range.NetworkSettings.Networks\}\}\{\{.IPAddress\}\}\{\{end\}\}' {{container}}` MUST be rendered as "docker inspect --format '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container"
 - `mount \\{{computer_name}}\{{share_name}} Z:` MUST be rendered as "mount \\\\computer_name\share_name Z:"
+- `git stash show --patch {{stash@{0}}}` MUST be rendered as "git stash show --patch stash@{0}"
+- `git add {{[-A|--all]}}` MUST be rendered as "git add -A" or "git add --all" when only short or longform is shown. It MUST be rendered as "git add [-A|--all]" when both are requested.
 
 ## Page resolution
 
@@ -161,7 +180,7 @@ If a page cannot be found in _any_ platform, then it is RECOMMENDED that clients
 https://github.com/tldr-pages/tldr/issues/new?title=page%20request:%20{command_name}
 ```
 
-where `{command_name}` is the name of the command that was not found. Clients that have control over their exit code on the command line (i.e. clients that provide a CLI) MUST exit with a non-zero exit code in addition to showing the above message.
+where `{command_name}` is the name of the command that was not found. Clients that have control over their exit code on the command-line (i.e. clients that provide a CLI) MUST exit with a non-zero exit code in addition to showing the above message.
 
 #### If multiple versions of a page were found
 
@@ -213,7 +232,10 @@ Step  | Path checked         | Outcome
 
 ## Caching
 
-If appropriate, it is RECOMMENDED that clients implement a cache of pages. If implemented, clients MUST download the entire archive either as a whole from **[https://tldr.sh/assets/tldr.zip](https://tldr.sh/assets/tldr.zip)** (Which redirects to [https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/main/assets/tldr.zip](https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/main/assets/tldr.zip)) or download language-specific translation archives in the format `https://tldr.sh/assets/tldr-pages.{{language-code}}.zip` (Which redirects to [https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/main/assets/tldr-pages.{{language-code}}.zip](https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/main/assets)), along with the archive for English from **[https://tldr.sh/assets/tldr-pages.zip](https://tldr.sh/assets/tldr-pages.zip)** (It redirects to [https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/main/assets/tldr-pages.zip](https://raw.githubusercontent.com/tldr-pages/tldr-pages.github.io/main/assets/tldr-pages.zip)).
+If appropriate, it is RECOMMENDED that clients implement a cache of pages. If implemented, clients MUST download the entire archive either as a whole from **<https://github.com/tldr-pages/tldr/releases/latest/download/tldr.zip>** or download language-specific archives in the format `https://github.com/tldr-pages/tldr/releases/latest/download/tldr-pages.{{language-code}}.zip` (e.g. **<https://github.com/tldr-pages/tldr/releases/latest/download/tldr-pages.en.zip>**). The English archive is also available from **<https://github.com/tldr-pages/tldr/releases/latest/download/tldr-pages.zip>**.
+
+> [!CAUTION]
+> Prior to version 2.2, the client specification stated that clients MUST download archives from <https://tldr.sh/assets>. This method is now deprecated, and **_will be removed_** in the future.
 
 Caching SHOULD be done according to the user's language configuration (if any), to not waste unneeded space for unused languages. Additionally, clients MAY automatically update the cache regularly.
 
@@ -232,6 +254,13 @@ the commit hash changes when merging with squash or rebase.
 -->
 
 - Unreleased
+  - Added longform/shortform specifications ([#15253](https://github.com/tldr-pages/tldr/pull/15253))
+
+- [v2.2, March 20th 2024](https://github.com/tldr-pages/tldr/blob/v2.2/CLIENT-SPECIFICATION.md) ([#12452](https://github.com/tldr-pages/tldr/pull/12452))
+  - Removed redirect text from the [caching section](#caching) ([#12133](https://github.com/tldr-pages/tldr/pull/12133))
+  - Updated asset URLs to use GitHub releases ([#12158](https://github.com/tldr-pages/tldr/pull/12158))
+  - Add requirement to disambiguate triple-brace placeholders ([#12158](https://github.com/tldr-pages/tldr/pull/12158))
+  - Add notice to deprecate the old asset URL ([#12452](https://github.com/tldr-pages/tldr/pull/12452))
 
 - [v2.1, November 30th 2023](https://github.com/tldr-pages/tldr/blob/v2.1/CLIENT-SPECIFICATION.md) ([#11523](https://github.com/tldr-pages/tldr/pull/11523))
   - Add requirement to support escaping the placeholder syntax in certain pages ([#10730](https://github.com/tldr-pages/tldr/pull/10730))

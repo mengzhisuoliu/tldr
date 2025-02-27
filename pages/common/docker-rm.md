@@ -1,7 +1,7 @@
 # docker rm
 
 > Remove containers.
-> More information: <https://docs.docker.com/engine/reference/commandline/rm>.
+> More information: <https://docs.docker.com/reference/cli/docker/container/rm/>.
 
 - Remove containers:
 
@@ -17,4 +17,4 @@
 
 - Display help:
 
-`docker rm`
+`docker rm --help`

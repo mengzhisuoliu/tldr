@@ -1,7 +1,6 @@
 # ubuntu-bug
 
-> Este comando é um pseudônimo de `apport-bug`.
-> Mais informações: <https://manned.org/ubuntu-bug>.
+> Este comando é um apelido de `apport-bug`.
 
 - Exibe documentação sobre o comando original:
 

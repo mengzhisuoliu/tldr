@@ -1,7 +1,6 @@
 # sls
 
-> Este comando é um pseudônimo de `Select-String`.
-> Mais informações: <https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/select-string>.
+> Este comando é um apelido de `Select-String`.
 
 - Exibe documentação sobre o comando original:
 
